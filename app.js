@@ -33,6 +33,15 @@ app.get('/get_r1022', (req, res) => {
     res.status(200).json(results.rows)
     })
 })
+app.get('/getCompanies', (req, res) => {
+    const query = "SELECT * FROM minzdrav.mpe1gem;"
+    pool.query(query, (error, results) => {
+    if (error) {
+        throw error
+    }
+    res.status(200).json(results.rows)
+    })
+})
 
 
 app.listen(3001, ()=>{

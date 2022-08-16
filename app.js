@@ -1,13 +1,19 @@
+//Подключаем express
 const express = require("express");
-const fs = require("fs");
 const jsonParser = express.json()
 const app = express()
-const { Client } = require('pg')
-const client = new Client()
-await client.connect()
 
-//перед выгрузкой удалить!!!
-//CORS
+//Подключаем postgreSQL
+const Pool = require('pg').Pool
+const pool = new Pool({
+    host: 'localhost',
+    user: 'postgres',     
+    password: '12345',
+    database: 'avecoder', 
+    port: 5432,
+});
+
+//перед выгрузкой удалить!!! для устранения ошибки на локальном сервере
 app.use(function(req, res, next) {
     res.header("Access-Control-Allow-Origin", "*"); //указать конкретный домен
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
@@ -18,11 +24,16 @@ app.get('/', (req, res) => {
     res.send(`<h1>API is working</h1>`)
 })
 
-app.post('/getData', jsonParser, (req, res) => {
-    if(!req.body.id){
-        return res.sendStatus(400)
+app.get('/get_r1022', (req, res) => {
+    const query = "SELECT * FROM r1022;"
+    pool.query(query, (error, results) => {
+    if (error) {
+        throw error
     }
+    res.status(200).json(results.rows)
+    })
 })
+
 
 app.listen(3001, ()=>{
     console.log('Сервер ожидает запросов...')

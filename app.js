@@ -43,9 +43,8 @@ app.get('/getCompanies', (req, res) => {
     })
 })
 
-app.get('/getCompanyBySubject', (req, res) => {
-    //Допилить через пост запрос
-    const r1022 = '0100000000'
+app.post('/getCompanyBySubject', jsonParser, (req, res) => {
+    const { r1022 } = req.body
     const query = `SELECT * FROM minzdrav.mpe1gem WHERE r1022 = '${r1022}';`
     pool.query(query, (error, results) => {
     if (error) {

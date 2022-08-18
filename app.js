@@ -39,10 +39,16 @@ app.get('/getCompanies', (req, res) => {
     if (error) {
         throw error
     }
-    res.status(200).json(results.rows)
     })
 })
-
+/*
+const query = `DELETE FROM minzdrav.mpe1gem WHERE id > '2';`
+pool.query(query, (error, results) => {
+if (error) {
+    throw error
+}
+})
+*/
 app.post('/getCompanyBySubject', jsonParser, (req, res) => {
     const { r1022 } = req.body
     const query = `SELECT * FROM minzdrav.mpe1gem WHERE r1022 = '${r1022}';`
@@ -54,19 +60,20 @@ app.post('/getCompanyBySubject', jsonParser, (req, res) => {
     })
 })
 
-app.post('/setCompany', jsonParser, (req, res) => {
+app.post('/setNewCompany', jsonParser, (req, res) => {
     const {npp, r1022, naim_org, adr_fact, inn, plazma_max, plazma_cena, erm_max, erm_cena, immg_max, immg_cena, alb_max, alb_cena} = req.body
     const query = `
         INSERT INTO "minzdrav"."mpe1gem" 
         ("npp", "r1022", "naim_org", "adr_fact", "inn", "plazma_max", "plazma_cena", "erm_max", "erm_cena", "immg_max", "immg_cena", "alb_max", "alb_cena")
         VALUES 
-        ('${npp}', '${r1022}', '${naim_org}', '${adr_fact}', '${inn}', '${plazma_max}', '${plazma_cena}', '${erm_max}', '${erm_cena}', '${immg_max}', '${immg_cena}', '${alb_max}', '${alb_cena}');
+        ('${npp}', '${r1022}', '${naim_org}', '${adr_fact}', '${inn}', '${Number(plazma_max)}', '${Number(plazma_cena)}', 
+        '${Number(erm_max)}', '${Number(erm_cena)}', '${Number(immg_max)}', '${Number(immg_cena)}', '${Number(alb_max)}', '${Number(alb_cena)}');
     `
     pool.query(query, (error, results) => {
     if (error) {
         throw error
     }
-    res.status(200).json(results.rows)
+    res.status(200).json(results.rowCount)
     })
 })
 app.post('/updateCompany', jsonParser, (req, res) => {

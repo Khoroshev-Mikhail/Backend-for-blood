@@ -9,7 +9,7 @@ const pool = new Pool({
     host: 'localhost',
     user: 'postgres',     
     password: '12345',
-    database: 'avecoder', 
+    database: 'test', 
     port: 5432,
 });
 
@@ -59,7 +59,6 @@ app.post('/deleteCompany', jsonParser, (req, res) => {
     if (error) {
         throw error
     }
-    console.log(results)
     res.status(200).json(results.rowCount)
     })
 })

@@ -41,14 +41,7 @@ app.get('/getCompanies', (req, res) => {
     }
     })
 })
-/*
-const query = `DELETE FROM minzdrav.mpe1gem WHERE id > '2';`
-pool.query(query, (error, results) => {
-if (error) {
-    throw error
-}
-})
-*/
+
 app.post('/getCompanyBySubject', jsonParser, (req, res) => {
     const { r1022 } = req.body
     const query = `SELECT * FROM minzdrav.mpe1gem WHERE r1022 = '${r1022}';`
@@ -57,6 +50,17 @@ app.post('/getCompanyBySubject', jsonParser, (req, res) => {
         throw error
     }
     res.status(200).json(results.rows)
+    })
+})
+app.post('/deleteCompany', jsonParser, (req, res) => {
+    const { id } = req.body
+    const query = `DELETE FROM minzdrav.mpe1gem WHERE id = '${id}';`
+    pool.query(query, (error, results) => {
+    if (error) {
+        throw error
+    }
+    console.log(results)
+    res.status(200).json(results.rowCount)
     })
 })
 

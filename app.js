@@ -2,9 +2,9 @@
 const express = require("express");
 const jsonParser = express.json()
 const app = express()
-const config = require("./config");
 
 //Подключаем postgreSQL
+const config = require("./config");
 const Pool = require('pg').Pool
 const pool = new Pool({
     host: config.host,
@@ -14,13 +14,31 @@ const pool = new Pool({
     port: 5432,
 });
 
-//перед выгрузкой удалить!!! для устранения ошибки на локальном сервере
+//CORS
 app.use(function(req, res, next) {
     res.header("Access-Control-Allow-Origin", "*"); //указать конкретный домен
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     res.header("Access-Control-Allow-Methods", "DELETE, PUT, UPDATE, HEAD, OPTIONS, GET, POST");
     next();
 });
+
+app.use(function(error, req, res, next) {
+    if(error){
+        return res.status(500).send('Something is broke')
+    }
+    next()
+});
+
+function checkEntriesData(company){
+    const {npp, r1022, naim_org, adr_fact, inn, plazma_max, plazma_cena, erm_max, erm_cena, immg_max, immg_cena, alb_max, alb_cena} = company
+    const regExp_r1022 = /^[0-9]+$/
+    const regExp_naim_org = /^[а-я0-9]+$/i;
+    const regExp_adr_fact = /^[а-я0-9]+$/i;
+    const regExp_inn = /^[0-9]{12}$/;
+    const regExp_numeric_17_6 = /^[0-9]{1,17}[.,]?[0-9]{0,6}$/
+
+    //циклом for или в ручную
+}
 
 app.get('/', (_, res) => {
     res.status(200).send(`<h1>API is working</h1>`)
@@ -35,6 +53,7 @@ app.get('/get_r1022', (_, res) => {
         return res.status(400).send(error.message)
     })  
 })
+
 app.get('/getCompanies', (_, res) => {
     const query = "SELECT * FROM minzdrav.mpe1gem;"
     pool.query(query, (error, results) => {
@@ -47,6 +66,9 @@ app.get('/getCompanies', (_, res) => {
 
 app.get('/subjects/:r1022/', jsonParser, (req, res) => {
     const { r1022 } = req.params
+    if(/[0-9]+/.test(r1022)){
+        return res.status(400).send('Не правильный код субъекта РФ')
+    }
     const query = `SELECT * FROM minzdrav.mpe1gem WHERE r1022 = '${r1022}';`
     pool.query(query, (error, results) => {
         if (!error) {
@@ -55,7 +77,6 @@ app.get('/subjects/:r1022/', jsonParser, (req, res) => {
         return res.status(400).send(error.message)
     })
 })
-
 
 //Добавить компанию
 app.post('/addCompany', jsonParser, (req, res) => {

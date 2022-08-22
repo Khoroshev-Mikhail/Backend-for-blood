@@ -1,8 +1,6 @@
-# 1 Открыть файл config.js и указать свои данные БД
-# 2 Запустить 
-### `npm i`
-# 3 Запустить комманду на node.js
-### `node build.js`
-# 4 Дождаться завершения всех SQL инъекций и запустить
-### `node app.js`
-# Открыть [https://github.com/Mikha38/blood](https://github.com/Mikha38/blood)
+# 1 Необходимо создать БД для этого проекта
+### `CREATE DATABASE test;`
+# 2 Открыть файл config.js и указать свои данные БД (у вас на ПК должна быть установлена postgreSQL)
+# 3 Запустить 
+### `npm run build-n-start`
+# 4 Клонировать и запустить репозиторий с фронтом [https://github.com/Mikha38/blood](https://github.com/Mikha38/blood)

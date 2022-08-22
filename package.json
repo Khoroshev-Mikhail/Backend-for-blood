@@ -7,6 +7,6 @@
     },
     "scripts": {
         "start": "node app.js",
-        "buildMyApp": "node build.js"
-      }
+        "build-n-start": "npm i && node build.js && node app.js"
+    }
 }

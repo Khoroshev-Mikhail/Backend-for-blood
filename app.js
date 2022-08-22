@@ -82,11 +82,11 @@ app.post('/setNewCompany', jsonParser, (req, res) => {
 app.post('/updateCompany', jsonParser, (req, res) => {
     const {id, npp, r1022, naim_org, adr_fact, inn, plazma_max, plazma_cena, erm_max, erm_cena, immg_max, immg_cena, alb_max, alb_cena} = req.body
     const query = `
-        UPDATE "minzdrav"."mpe1gem" 
+        UPDATE "minzdrav"."mpe1gem" SET 
         ("npp", "r1022", "naim_org", "adr_fact", "inn", "plazma_max", "plazma_cena", "erm_max", "erm_cena", "immg_max", "immg_cena", "alb_max", "alb_cena")
         =
-        ('${npp}', '${r1022}', '${naim_org}', '${adr_fact}', '${inn}', '${plazma_max}', '${plazma_cena}', '${erm_max}', '${erm_cena}', '${immg_max}', '${immg_cena}', '${alb_max}', '${alb_cena}');
-        WHERE id = '${id}'
+        ('${npp}', '${r1022}', '${naim_org}', '${adr_fact}', '${inn}', '${plazma_max}', '${plazma_cena}', '${erm_max}', '${erm_cena}', '${immg_max}', '${immg_cena}', '${alb_max}', '${alb_cena}')
+        WHERE id = '${id}';
     `
     pool.query(query, (error, results) => {
     if (error) {

@@ -22,12 +22,6 @@ app.use(function(req, res, next) {
     next();
 });
 
-app.use(function(error, req, res, next) {
-    if(error){
-        return res.status(500).send('Something is broke')
-    }
-    next()
-});
 
 //Функция для проверки валидности входящих данных компании
 function isValidCompany(company){
@@ -167,6 +161,13 @@ app.delete('/deleteCompany', jsonParser, (req, res) => {
         return res.status(400).send(error.message)
     })
 })
+
+app.use(function(error, req, res, next) {
+    if(error){
+        return res.status(500).send('Something is broke')
+    }
+    next()
+});
 
 app.listen(3001, ()=>{
     console.log('Сервер ожидает запросов...')

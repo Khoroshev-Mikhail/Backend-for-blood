@@ -81,9 +81,7 @@ function isValidCompany(company){
 }
 
 app.get('/', (error, res) => {
-    if(! error){
-        return res.status(200).send(`<h1>API is working</h1>`)
-    }
+    return res.status(200).send(`<h1>API is working</h1>`)
 })
 
 app.get('/subjects', (_, res) => {

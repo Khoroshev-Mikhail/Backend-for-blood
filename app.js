@@ -27,10 +27,10 @@ app.use(function(req, res, next) {
 function isValidCompany(company){
     const {npp, r1022, naim_org, adr_fact, inn, plazma_max, plazma_cena, erm_max, erm_cena, immg_max, immg_cena, alb_max, alb_cena} = company
     
-    const regExp_r1022 = /^[0-9]{1,11}$/
+    const regExp_r1022 = /^[0-9]{1,11}$/;
     const regExp_text = /^[a-zа-я0-9\s_\.,!\?\'\"]+$/i;
     const regExp_inn = /^[0-9]{12}$/;
-    const regExp_numeric_17_6 = /^[0-9]{1,17}[.,]?[0-9]{0,6}$/
+    const regExp_numeric_17_6 = /^[0-9]{1,17}[.,]?[0-9]{0,6}$/;
     
     if(typeof npp !== 'number') {
         return false
